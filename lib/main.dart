@@ -30,6 +30,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   bool _isDark = false;
   bool _isFirstImage = true;
 
+  int _stepValue = 1; // step control variable
+
   late final AnimationController _controller;
   late final Animation<double> _fade;
 
@@ -50,7 +52,21 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   void _incrementCounter() {
-    setState(() => _counter++);
+    setState(() => _counter += _stepValue);
+  }
+
+  void _decrementCounter() {
+    if (_counter >= _stepValue) {
+      setState(() {
+        _counter -= _stepValue;
+      });
+    }
+  }
+
+  void _resetCounter() {
+    setState(() {
+      _counter = 0;
+    });
   }
 
   void _toggleTheme() {
@@ -86,14 +102,81 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // counter display
               Text(
                 'Counter: $_counter',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: _incrementCounter,
-                child: const Text('Increment'),
+              // step selector buttons
+              Text(
+                'Select step size:',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // step 1
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _stepValue = 1;
+                      });
+                    },
+                    child: const Text('Step 1'),
+                  ),
+                  const SizedBox(width: 8),
+                  // step 5
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _stepValue = 5;
+                      });
+                    },
+                    child: const Text('Step 5'),
+                  ),
+                  const SizedBox(width: 8),   
+                  // step 10
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _stepValue = 10;
+                      });
+                    },
+                    child: const Text('Step 10'),
+                  ),             
+                ],
+              ),
+              const SizedBox(height: 16),
+              // current step display
+              Text(
+                'Incrementing by: $_stepValue',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 20),
+              // counter control
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // decrement
+                  ElevatedButton(
+                    onPressed: _counter >= _stepValue ? _decrementCounter : null,
+                    child: Text('-$_stepValue'),
+                  ),
+                  const SizedBox(width: 12),
+                  // increment
+                  ElevatedButton(
+                    onPressed: _incrementCounter,
+                    child: Text('+$_stepValue'),
+                  ),
+                  const SizedBox(width: 12),
+                  // reset
+                  ElevatedButton(
+                    onPressed: _counter > 0 ? _resetCounter : null,
+                    child: const Text('Reset'),
+                  ),
+                ],
               ),
               const SizedBox(height: 24),
               FadeTransition(
