@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
+    _controller.value = 1.0; // images visible by default
     _fade = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
   }
 
@@ -74,11 +75,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   void _toggleImage() {
-    if (_isFirstImage) {
-      _controller.forward();
-    } else {
-      _controller.reverse();
-    }
+    _controller.reset();
+    _controller.forward(); // play animation
     setState(() => _isFirstImage = !_isFirstImage);
   }
 
