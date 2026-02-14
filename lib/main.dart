@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
               FadeTransition(
                 opacity: _fade,
                 child: Image.asset(
-                  _isFirstImage ? 'assets/image1.png' : 'assets/image2.png',
+                  _isFirstImage ? 'assets/images/image1.png' : 'assets/images/image2.png',
                   width: 180,
                   height: 180,
                   fit: BoxFit.cover,
